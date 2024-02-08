@@ -1,6 +1,7 @@
 const { $ } = require("@wdio/globals");
 const BaseComponent = require("../common/base.component");
 const Button = require("../../../controls/button");
+const Input = require("../../../controls/input");
 
 class LoginFormComponent extends BaseComponent {
   get errorLoginMessage() {
@@ -11,14 +12,23 @@ class LoginFormComponent extends BaseComponent {
     return $("#email-sent-page");
   }
 
+  get captchaMessage() {
+    return $("#rc-anchor-container");
+  }
+
+  get captchaCheckbox() {
+    return new Input("#recaptcha-anchor");
+  }
+
   /**
    *
-   * @param  name {"login" | "resetPasswordRequest" | "resetPasswordConfirm"}
+   * @param  name {"continue" | "login" | "resetPasswordRequest" | "resetPasswordConfirm"}
    * @returns {*}
    */
 
   get button() {
     const selectors = {
+      continue: "#login",
       login: "#login-submit",
       resetPasswordRequest: "#resetPassword",
       resetPasswordConfirm: "#reset-password-email-submit",
@@ -33,23 +43,24 @@ class LoginFormComponent extends BaseComponent {
    * @returns {*}
    */
 
-  input(name) {
+  get input() {
     const selectors = {
-      email: "#username",
+      email: "#user",
+      email1: "#username",
       password: "#password",
       emailForPasswordReset: "#email",
     };
 
-    return $(selectors[name]);
+    return (name) => new Input(selectors[name]);
   }
 
-  performLogin = async (email, password) => {
-    await this.input("email").setValue(email);
+  async performLogin(email, password) {
+    await this.input("email").waitAndSetValue(email);
+    await this.button("continue").waitAndClick();
+    await this.button("continue").waitForDisappear();
+    await this.input("password").waitAndSetValue(password);
     await this.button("login").waitAndClick();
-    await this.input("password").waitForDisplayed({ timeout: 5000 });
-    await this.input("password").setValue(password);
-    await this.button("login").waitAndClick();
-  };
+  }
 }
 
 module.exports = LoginFormComponent;

@@ -1,10 +1,9 @@
 const { expect, browser } = require("@wdio/globals");
-const { pages } = require("../../po");
+const { pages } = require("../../../po");
 
 describe("Trello Board Search", () => {
   before("loggin into the account and open board search page", async () => {
-    await pages("home").open();
-    await pages("home").homeHeader.loginPageBtn.waitAndClick();
+    await pages("login").open();
     await pages("login").loginForm.performLogin(
       "test.user010101111@gmail.com",
       "test.password"
@@ -16,7 +15,7 @@ describe("Trello Board Search", () => {
 
   it("should find a board with the specified name and be able to access it", async () => {
     const search = await pages("search").searchComponent;
-    await search.searchInput.setValue("Board Test Search");
+    await search.searchInput.waitAndSetValue("Board Test Search");
 
     await expect(search.searchResultItem).toHaveAttribute(
       "title",
@@ -33,7 +32,7 @@ describe("Trello Board Search", () => {
 
   it("should find all board with similar names and be able to access it", async () => {
     const search = await pages("search").searchComponent;
-    await search.searchInput.setValue("for test");
+    await search.searchInput.waitAndSetValue("for test");
 
     await expect(search.searchResultItem).toHaveAttributeContaining(
       "title",

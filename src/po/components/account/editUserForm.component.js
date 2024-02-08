@@ -12,6 +12,10 @@ class EditUserFormComponent extends BaseComponent {
     return $("#FlagGroup .QMKgZFIlTLiEJN");
   }
 
+  get closePopupBtn() {
+    return new Button("button.LbO_k5JPG5miXd");
+  }
+
   get errorMessage() {
     return $("#SaveProfileError_Field_username");
   }
@@ -22,13 +26,18 @@ class EditUserFormComponent extends BaseComponent {
    * @returns {*}
    */
 
-  input(name) {
+  get input() {
     const selectors = {
       username: "#username",
       bio: "#bio",
     };
 
-    return new Input(selectors[name].toLowerCase());
+    return (name) => new Input(selectors[name].toLowerCase());
+  }
+
+  async closePopup() {
+    await this.closePopupBtn.waitAndClick();
+    await this.closePopupBtn.waitForDisappear();
   }
 }
 

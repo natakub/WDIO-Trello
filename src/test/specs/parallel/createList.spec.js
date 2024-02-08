@@ -1,10 +1,9 @@
 const { expect, browser } = require("@wdio/globals");
-const { pages } = require("../../po");
+const { pages } = require("../../../po");
 
 describe("Trello List Creation", () => {
   before("loggin into the account and open board page", async () => {
-    await pages("home").open();
-    await pages("home").homeHeader.loginPageBtn.waitAndClick();
+    await pages("login").open();
     await pages("login").loginForm.performLogin(
       "test.user010101111@gmail.com",
       "test.password"
@@ -16,7 +15,9 @@ describe("Trello List Creation", () => {
 
   it("should create new list in board", async () => {
     await pages("board").lists.listComposerBtn.waitAndClick();
-    await pages("board").listComposer.listNameInput.setValue("List Name");
+    await pages("board").listComposer.listNameInput.waitAndSetValue(
+      "List Name"
+    );
     await pages("board").listComposer.addListBtn.waitAndClick();
 
     const listNames = pages("board").lists.listNames;
@@ -26,7 +27,9 @@ describe("Trello List Creation", () => {
   });
 
   it("should cancel new list creation in board if requested", async () => {
-    await pages("board").listComposer.listNameInput.setValue("List Cancel");
+    await pages("board").listComposer.listNameInput.waitAndSetValue(
+      "List Cancel"
+    );
     await pages("board").listComposer.cancelListBtn.waitAndClick();
 
     const allListNames = await pages("board").lists.listNames;

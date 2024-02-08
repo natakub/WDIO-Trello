@@ -1,6 +1,7 @@
 const { $ } = require("@wdio/globals");
 const BaseComponent = require("../common/base.component");
 const Button = require("../../../controls/button");
+const Input = require("../../../controls/input");
 
 class EditWorkspaceFormComponent extends BaseComponent {
   get saveEditBtn() {
@@ -21,13 +22,13 @@ class EditWorkspaceFormComponent extends BaseComponent {
    * @returns {*}
    */
 
-  input(name) {
+  get input() {
     const selectors = {
       name: "#displayName",
       description: "#desc",
     };
 
-    return $(selectors[name]);
+    return (name) => new Input(selectors[name]);
   }
 }
 

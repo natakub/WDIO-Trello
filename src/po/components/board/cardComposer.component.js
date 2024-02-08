@@ -1,10 +1,11 @@
 const { $ } = require("@wdio/globals");
 const BaseComponent = require("../common/base.component");
 const Button = require("../../../controls/button");
+const Input = require("../../../controls/input");
 
 class CardComposerComponent extends BaseComponent {
   get cardNameInput() {
-    return $("[data-testid='list-card-composer-textarea']");
+    return new Input("[data-testid='list-card-composer-textarea']");
   }
 
   get addCardBtn() {

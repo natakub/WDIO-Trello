@@ -1,6 +1,7 @@
 const { $ } = require("@wdio/globals");
 const BaseComponent = require("../common/base.component");
 const Button = require("../../../controls/button");
+const Input = require("../../../controls/input");
 
 class FilterPopoverComponent extends BaseComponent {
   get filterClose() {
@@ -13,7 +14,7 @@ class FilterPopoverComponent extends BaseComponent {
    * @returns {*}
    */
 
-  checkbox(name) {
+  get checkbox() {
     const selectors = {
       assignedToMe:
         "div.atlaskit-portal-container div:nth-child(4) > ul > li:nth-child(2) > label",
@@ -27,7 +28,7 @@ class FilterPopoverComponent extends BaseComponent {
         "div.atlaskit-portal-container div:nth-child(6) > ul > li:nth-child(4) > label > input",
     };
 
-    return $(selectors[name]);
+    return (name) => new Input(selectors[name]);
   }
 }
 

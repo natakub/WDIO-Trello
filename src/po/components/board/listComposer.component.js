@@ -1,10 +1,11 @@
 const { $ } = require("@wdio/globals");
 const BaseComponent = require("../common/base.component");
 const Button = require("../../../controls/button");
+const Input = require("../../../controls/input");
 
 class ListComposerComponent extends BaseComponent {
   get listNameInput() {
-    return $("[name='Enter list title…']");
+    return new Input("[name='Enter list title…']");
   }
 
   get addListBtn() {

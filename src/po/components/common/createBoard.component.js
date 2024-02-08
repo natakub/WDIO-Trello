@@ -1,9 +1,10 @@
 const BaseComponent = require("../common/base.component");
 const Button = require("../../../controls/button");
+const Input = require("../../../controls/input");
 
 class CreateBoardComponent extends BaseComponent {
   get boardTitleInput() {
-    return $("[data-testid='create-board-title-input']");
+    return new Input("[data-testid='create-board-title-input']");
   }
 
   get submitBoardBtn() {

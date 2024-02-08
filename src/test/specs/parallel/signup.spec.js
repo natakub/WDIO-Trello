@@ -1,5 +1,5 @@
 const { expect } = require("@wdio/globals");
-const { pages } = require("../../po");
+const { pages } = require("../../../po");
 
 describe("Trello Sign up", () => {
   before(async () => {
@@ -11,8 +11,7 @@ describe("Trello Sign up", () => {
     const signupForm = pages("signup").signupForm;
 
     await signupForm.performSignup("test.user010101111@gmailcom");
-    await signupForm.hideCaptchaMessage(signupForm.captchaMessage);
-    await browser.pause(10000);
+    await signupForm.signupBtn.waitAndClick();
     await signupForm.signupBtn.waitAndClick();
 
     await expect(signupForm.errorMessage).toBeDisplayed();

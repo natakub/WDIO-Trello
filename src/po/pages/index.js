@@ -1,6 +1,5 @@
 const HomePage = require("./home.page");
 const LoginPage = require("./login.page");
-const LogoutPage = require("./logout.page");
 const SignupPage = require("./signup.page");
 const BoardsPage = require("./boards.page");
 const BoardPage = require("./board.page");
@@ -17,7 +16,6 @@ function pages(name) {
     home: new HomePage(),
     signup: new SignupPage(),
     login: new LoginPage(),
-    logout: new LogoutPage(),
     boards: new BoardsPage(),
     board: new BoardPage(),
     account: new AccountPage(),
@@ -32,7 +30,6 @@ module.exports = {
   HomePage,
   SignupPage,
   LoginPage,
-  LogoutPage,
   BoardsPage,
   BoardPage,
   AccountPage,

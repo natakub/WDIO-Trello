@@ -1,10 +1,9 @@
 const { expect, browser } = require("@wdio/globals");
-const { pages } = require("../../po");
+const { pages } = require("../../../po");
 
 describe("Trello editing workspace", () => {
   before("loggin into the account and open workspace", async () => {
-    await pages("home").open();
-    await pages("home").homeHeader.loginPageBtn.waitAndClick();
+    await pages("login").open();
     await pages("login").loginForm.performLogin(
       "test.user010101111@gmail.com",
       "test.password"
@@ -12,6 +11,8 @@ describe("Trello editing workspace", () => {
 
     // Open user workspace page
     await browser.newWindow("https://trello.com/w/testworkspace04649910");
+    await pages("workspace").loggedoutHeader.waitForExist(undefined, true);
+    await pages("workspace").header.memberIcon.waitForDisplayed();
   });
 
   describe("Update workspace name with valid characters", () => {
@@ -21,8 +22,7 @@ describe("Trello editing workspace", () => {
       ).workspaceInfo.openEditWorkspaceFormBtn.waitAndClick();
 
       const editWorkspaceForm = await pages("workspace").editWorkspaceForm;
-      await editWorkspaceForm.input("name").waitForDisplayed();
-      await editWorkspaceForm.input("name").addValue("testing");
+      await editWorkspaceForm.input("name").waitAndAddValue("testing");
       await editWorkspaceForm.saveEditBtn.waitAndClick();
 
       await expect(
@@ -52,7 +52,7 @@ describe("Trello editing workspace", () => {
       ).workspaceInfo.openEditWorkspaceFormBtn.waitAndClick();
 
       const editWorkspaceForm = await pages("workspace").editWorkspaceForm;
-      await editWorkspaceForm.input("description").addValue("testing");
+      await editWorkspaceForm.input("description").waitAndAddValue("testing");
       await editWorkspaceForm.saveEditBtn.waitAndClick();
 
       const workspaceDescription =
@@ -88,8 +88,7 @@ describe("Trello editing workspace", () => {
     ).workspaceInfo.openEditWorkspaceFormBtn.waitAndClick();
 
     const editWorkspaceForm = await pages("workspace").editWorkspaceForm;
-    await editWorkspaceForm.input("description").waitForDisplayed();
-    await editWorkspaceForm.input("description").addValue("testing");
+    await editWorkspaceForm.input("description").waitAndAddValue("testing");
     await editWorkspaceForm.cancelEditBtn.waitAndClick();
 
     await workspaceNameElement.waitForDisplayed();

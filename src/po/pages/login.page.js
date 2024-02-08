@@ -3,7 +3,7 @@ const { LoginForm } = require("../components");
 
 class LoginPage extends BasePage {
   constructor() {
-    super();
+    super("https://trello.com/login");
     this.loginForm = new LoginForm();
   }
 }

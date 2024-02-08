@@ -20,7 +20,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ["../test/specs/**/*.js"],
+  specs: ["../test/specs/concurrent/**/*.js"],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -41,7 +41,7 @@ exports.config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 2,
+  maxInstances: 1,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -50,18 +50,17 @@ exports.config = {
   capabilities: [
     {
       browserName: "chrome",
-      // "goog:chromeOptions": {
-      //   args: ["--headless"],
-      // },
+      "goog:chromeOptions": {
+        args: ["headless", "disable-gpu"],
+      },
     },
     {
       browserName: "firefox",
       "moz:firefoxOptions": {
-        args: ["--headless"],
+        args: ["-headless"],
       },
     },
   ],
-
   //
   // ===================
   // Test Configurations
@@ -122,13 +121,13 @@ exports.config = {
 
   //
   // The number of times to retry the entire specfile when it fails as a whole
-  specFileRetries: 2,
+  // specFileRetries: 3,
   //
   // Delay in seconds between the spec file retry attempts
-  // specFileRetriesDelay: 0,
+  // specFileRetriesDelay: 1000,
   //
   // Whether or not retried spec files should be retried immediately or deferred to the end of the queue
-  // specFileRetriesDeferred: false,
+  // specFileRetriesDeferred: true,
   //
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
@@ -204,6 +203,10 @@ exports.config = {
    * @param {object}         browser      instance of created browser/device session
    */
   // before: function (capabilities, specs) {
+  //   browser.setNetworkConditions({
+  //     latency: 5000,
+  //     throughput: 450 * 1024,
+  //   });
   // },
   /**
    * Runs before a WebdriverIO command gets executed.

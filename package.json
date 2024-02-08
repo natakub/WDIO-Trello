@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "wdio run src/config/wdio.conf.js"
+    "test": "wdio run src/config/wdioConcurrent.conf.js && wdio run src/config/wdioParallel.conf.js",
+    "parallel-tests": "src/config/wdioParallel.conf.js",
+    "concurrent-tests": "wdio run src/config/wdioConcurrent.conf.js"
   },
   "keywords": [],
   "author": "",

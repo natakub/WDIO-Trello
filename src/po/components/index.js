@@ -1,7 +1,6 @@
 const HomeHeader = require("./home/header.component");
 const SignupForm = require("./signup/signupForm.component");
 const LoginForm = require("./login/loginForm.component");
-const LogoutForm = require("./logout/logoutForm,component");
 const Header = require("./common/header.component");
 const CreateBoard = require("./common/createBoard.component");
 const MemberMenu = require("./common/memberMenu.component");
@@ -16,8 +15,6 @@ const ListComposer = require("./board/listComposer.component");
 const List = require("./board/list.component");
 const CardComposer = require("./board/cardComposer.component");
 const FilterPopover = require("./board/filterPopover.component");
-const CardsList = require("./board/cardsList.component");
-const Card = require("./board/card.component");
 const WorkspaceInfo = require("./workspace/workspaceInfo.component");
 const EditWorkspaceForm = require("./workspace/editWorkspaceForm.component");
 
@@ -25,7 +22,6 @@ module.exports = {
   HomeHeader,
   SignupForm,
   LoginForm,
-  LogoutForm,
   Header,
   CreateBoard,
   UserWorkspaces,
@@ -40,8 +36,6 @@ module.exports = {
   List,
   CardComposer,
   FilterPopover,
-  CardsList,
-  Card,
   WorkspaceInfo,
   EditWorkspaceForm,
 };

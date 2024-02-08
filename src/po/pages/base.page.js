@@ -9,8 +9,12 @@ module.exports = class BasePage {
     this.createBoard = new CreateBoard();
   }
 
-  open = async () => {
+  get loggedoutHeader() {
+    return $("[data-testid='logged-out-header-wide']");
+  }
+
+  async open() {
     await browser.url(this.url);
     await browser.maximizeWindow();
-  };
+  }
 };
