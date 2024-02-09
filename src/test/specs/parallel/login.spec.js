@@ -1,5 +1,5 @@
 const { expect } = require("@wdio/globals");
-const { pages } = require("../../../po");
+const { pages } = require("../../../page");
 
 describe("Trello Login", () => {
   beforeEach(async () => {

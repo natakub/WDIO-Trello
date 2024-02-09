@@ -1,4 +1,4 @@
-class Button {
+class Input {
   constructor(selector) {
     this.selector = selector;
   }
@@ -56,4 +56,4 @@ class Button {
   }
 }
 
-module.exports = Button;
+module.exports = Input;

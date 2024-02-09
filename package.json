@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "wdio run src/config/wdioSequential.conf.js && wdio run src/config/wdioParallel.conf.js",
-    "parallel-tests": "src/config/wdioParallel.conf.js",
-    "sequential-tests": "wdio run src/config/wdioConcurrent.conf.js"
+    "test-parallel": "wdio run src/config/wdioParallel.conf.js",
+    "tests-sequential": "wdio run src/config/wdioConcurrent.conf.js"
   },
   "keywords": [],
   "author": "",

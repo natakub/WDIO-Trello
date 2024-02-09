@@ -1,5 +1,5 @@
 const { expect, browser } = require("@wdio/globals");
-const { pages } = require("../../../po");
+const { pages } = require("../../../page");
 
 describe("Trello editind user profile", () => {
   before("loggin into the account and open user profile page", async () => {
