@@ -6,8 +6,8 @@ describe("Trello Board Search", () => {
   before("loggin into the account and open board search page", async () => {
     await pages("login").open();
     await pages("login").loginForm.performLogin(
-      "test.user010101111@gmail.com",
-      "test.password"
+      process.env.EMAIL,
+      process.env.PASSWORD
     );
 
     //open search page

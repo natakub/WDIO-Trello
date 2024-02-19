@@ -6,8 +6,8 @@ describe("Trello editing workspace", () => {
   before("loggin into the account and open workspace", async () => {
     await pages("login").open();
     await pages("login").loginForm.performLogin(
-      "test.user010101111@gmail.com",
-      "test.password"
+      process.env.EMAIL,
+      process.env.PASSWORD
     );
 
     // Open user workspace page

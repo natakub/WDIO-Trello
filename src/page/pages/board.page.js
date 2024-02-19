@@ -5,9 +5,6 @@ const {
   ListComposer,
   List,
   CardComposer,
-  FilterPopover,
-  CardsList,
-  Card,
 } = require("../components");
 
 class BoardPage extends BasePage {
@@ -18,9 +15,6 @@ class BoardPage extends BasePage {
     this.listComposer = new ListComposer();
     this.list = new List();
     this.cardComposer = new CardComposer();
-    this.filterPopover = new FilterPopover();
-    this.cardList = new CardsList();
-    this.card = new Card();
   }
 }
 

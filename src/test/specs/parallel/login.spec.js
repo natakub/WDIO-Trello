@@ -6,7 +6,7 @@ describe("Trello Login", () => {
     await pages("login").open();
   });
 
-  it("an appropriate error message should appear when trying to log in with invalid credentials", async () => {
+  it("an appropriate error message should appear when trying to log in with incorrect credentials", async () => {
     const loginForm = pages("login").loginForm;
     await loginForm.performLogin("test.user010101111@gmail.co", "test.passwor");
 
@@ -20,9 +20,7 @@ describe("Trello Login", () => {
   it("a corresponding message should appear when requesting a password reset", async () => {
     const loginForm = pages("login").loginForm;
 
-    await loginForm
-      .input("email")
-      .waitAndSetValue("test.user010101111@gmail.com");
+    await loginForm.input("email").waitAndSetValue(process.env.EMAIL);
     await loginForm.button("continue").waitAndClick();
     await loginForm.button("resetPasswordRequest").waitAndClick();
     await loginForm.button("resetPasswordConfirm").waitAndClick();
@@ -41,10 +39,7 @@ describe("Trello Login", () => {
     const loginForm = pages("login").loginForm;
     const userWorkspaces = pages("boards").userWorkspaces;
 
-    await loginForm.performLogin(
-      "test.user010101111@gmail.com",
-      "test.password"
-    );
+    await loginForm.performLogin(process.env.EMAIL, process.env.PASSWORD);
 
     const userWorkspacesTitle = await userWorkspaces.getTextToLowerCase(
       userWorkspaces.userWorkspacesTitle
