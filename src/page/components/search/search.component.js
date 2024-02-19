@@ -6,6 +6,10 @@ class SearchComponent extends BaseComponent {
     return new Input("[data-testid='advanced-search-input']");
   }
 
+  get boards() {
+    return $("//h3[text()='Boards']");
+  }
+
   get searchResultItem() {
     return $$("[data-testid='advanced-search-board-result-item']");
   }

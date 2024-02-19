@@ -7,7 +7,7 @@ class ListComponent extends BaseComponent {
     return new Button("[data-testid='list-add-card-button']");
   }
 
-  get cardNames() {
+  get cardsNames() {
     return $$("[data-testid='card-name']");
   }
 }

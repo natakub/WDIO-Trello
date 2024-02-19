@@ -1,4 +1,5 @@
-const { expect, browser } = require("@wdio/globals");
+const { browser } = require("@wdio/globals");
+const should = require("chai").should();
 const { pages } = require("../../../page");
 
 describe("Trello List Creation", () => {
@@ -21,9 +22,13 @@ describe("Trello List Creation", () => {
     await pages("board").listComposer.addListBtn.waitAndClick();
 
     const listNames = pages("board").lists.listNames;
-    const latestListName = await pages("board").lists.getLastElement(listNames);
-
-    await expect(latestListName).toHaveText("List Name");
+    const latestList = await pages("board").lists.getLastElement(listNames);
+    const latestListName = await latestList.getText();
+    //using chai Should
+    await latestListName.should.equal(
+      "List Name",
+      "latest list name title is not the expected one"
+    );
   });
 
   it("should cancel new list creation in board if requested", async () => {
@@ -33,6 +38,13 @@ describe("Trello List Creation", () => {
     await pages("board").listComposer.cancelListBtn.waitAndClick();
 
     const allListNames = await pages("board").lists.listNames;
-    await expect(allListNames).not.toHaveTextContaining("List Cancel");
+    const listNamesArray = await allListNames.map(async (listName) => {
+      return await listName.getText();
+    });
+    //using chai Should
+    await listNamesArray.should.not.include(
+      "List Cancel",
+      "array contains this list name"
+    );
   });
 });

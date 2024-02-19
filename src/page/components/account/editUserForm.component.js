@@ -42,5 +42,3 @@ class EditUserFormComponent extends BaseComponent {
 }
 
 module.exports = EditUserFormComponent;
-
-// check if it worked

@@ -1,4 +1,5 @@
-const { expect, browser } = require("@wdio/globals");
+const { browser } = require("@wdio/globals");
+const { assert } = require("chai");
 const { pages } = require("../../../page");
 
 describe("Trello Card Creation", () => {
@@ -20,9 +21,15 @@ describe("Trello Card Creation", () => {
     );
     await pages("board").cardComposer.addCardBtn.waitAndClick();
 
-    const cardNames = pages("board").list.cardNames;
-    const latestCardName = await pages("board").list.getLastElement(cardNames);
-    await expect(latestCardName).toHaveText("Card Name");
+    const cardsNames = pages("board").list.cardsNames;
+    const latestCard = await pages("board").list.getLastElement(cardsNames);
+    const latestCardName = await latestCard.getText();
+    //using chai Assert
+    await assert.equal(
+      latestCardName,
+      "Card Name",
+      "latest card name title is not the expected one"
+    );
   });
 
   it("should cancel new card creation in list if requested", async () => {
@@ -31,7 +38,16 @@ describe("Trello Card Creation", () => {
     );
     await pages("board").cardComposer.cancelCardBtn.waitAndClick();
 
-    const allCardNames = await pages("board").list.cardNames;
-    await expect(allCardNames).not.toHaveTextContaining("Card Cancel");
+    const allCardsNames = await pages("board").list.cardsNames;
+    const cardNamesArray = await allCardsNames.map(async (cardName) => {
+      return await cardName.getText();
+    });
+
+    //using chai Assert
+    await assert.notInclude(
+      cardNamesArray,
+      "Card Cancel",
+      "array contains this card name"
+    );
   });
 });
