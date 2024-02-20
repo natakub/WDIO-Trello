@@ -8,8 +8,8 @@ const SearchPage = require("./search.page");
 const WorkspacePage = require("./workspace.page");
 
 /**
- * @param name {"signup" | "login"}
- * @returns { SignupPage | LoginPage}
+ * @param name { "home" | "signup" | "login" | "boards" | "board" | "account" | "search" | "workspace" }
+ * @returns { HomePage | SignupPage | LoginPage | BoardsPage | BoardPage | AccountPage | SearchPage | WorkspacePage }
  */
 function pages(name) {
   const items = {

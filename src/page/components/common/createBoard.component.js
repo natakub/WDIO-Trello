@@ -1,6 +1,6 @@
 const BaseComponent = require("../common/base.component");
-const Button = require("../../../controls/button");
-const Input = require("../../../controls/input");
+const Button = require("../../controls/button");
+const Input = require("../../controls/input");
 
 class CreateBoardComponent extends BaseComponent {
   get boardTitleInput() {

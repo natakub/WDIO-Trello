@@ -1,6 +1,6 @@
 const { $ } = require("@wdio/globals");
 const BaseComponent = require("../common/base.component");
-const Button = require("../../../controls/button");
+const Button = require("../../controls/button");
 
 class ListComponent extends BaseComponent {
   get cardComposerBtn() {

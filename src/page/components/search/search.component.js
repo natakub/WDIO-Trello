@@ -1,5 +1,5 @@
 const BaseComponent = require("../common/base.component");
-const Input = require("../../../controls/input");
+const Input = require("../../controls/input");
 
 class SearchComponent extends BaseComponent {
   get searchInput() {
