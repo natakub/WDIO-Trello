@@ -1,4 +1,12 @@
 class BaseComponent {
+  constructor(rootSelector) {
+    this.rootSelector = rootSelector;
+  }
+
+  get rootEl() {
+    return $(this.rootSelector);
+  }
+
   async getTextToLowerCase(element) {
     await element.waitForDisplayed();
     const text = await element.getText();
