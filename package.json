@@ -1,7 +1,8 @@
 {
   "name": "wdio-trello",
   "version": "1.0.0",
-  "description": "",
+  "description": "trello functionality testing with chai",
+  "private": false,
   "main": "index.js",
   "scripts": {
     "test": "wdio run src/support/config/wdioSequential.conf.js && wdio run src/support/config/wdioParallel.conf.js",
@@ -9,7 +10,7 @@
     "test-sequential": "wdio run src/support/config/wdioSequential.conf.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nataliia Kubytska",
   "license": "ISC",
   "devDependencies": {
     "@wdio/cli": "^8.32.1",
