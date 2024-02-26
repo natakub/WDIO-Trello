@@ -1,0 +1,20 @@
+{
+  "name": "wdio-trello",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "wdio run src/config/wdioSequential.conf.js && wdio run src/config/wdioParallel.conf.js",
+    "test-parallel": "wdio run src/config/wdioParallel.conf.js",
+    "tests-sequential": "wdio run src/config/wdioConcurrent.conf.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@wdio/cli": "^8.29.7",
+    "@wdio/local-runner": "^8.29.7",
+    "@wdio/mocha-framework": "^8.29.3",
+    "@wdio/spec-reporter": "^8.29.7"
+  }
+}
