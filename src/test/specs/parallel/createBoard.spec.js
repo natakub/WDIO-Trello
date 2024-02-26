@@ -1,12 +1,12 @@
-const { expect } = require("@wdio/globals");
+const { expect } = require("chai");
 const { pages } = require("../../../page");
 
 describe("Creating new Board", () => {
   before("loggin into the account", async () => {
     await pages("login").open();
     await pages("login").loginForm.performLogin(
-      "test.user010101111@gmail.com",
-      "test.password"
+      process.env.EMAIL,
+      process.env.PASSWORD
     );
   });
 
@@ -18,6 +18,8 @@ describe("Creating new Board", () => {
     );
     await pages("boards").createBoard.submitBoardBtn.waitAndClick();
 
-    await expect(pages("board").boardHeader.boardName).toHaveText("Board Name");
+    const boardName = await pages("board").boardHeader.boardName.getText();
+    //using chai Expect
+    await expect(boardName).to.equal("Board Name");
   });
 });

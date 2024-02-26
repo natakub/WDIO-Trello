@@ -1,12 +1,13 @@
-const { expect, browser } = require("@wdio/globals");
+const { browser } = require("@wdio/globals");
+const { assert } = require("chai");
 const { pages } = require("../../../page");
 
 describe("Trello editind user profile", () => {
   before("loggin into the account and open user profile page", async () => {
     await pages("login").open();
     await pages("login").loginForm.performLogin(
-      "test.user010101111@gmail.com",
-      "test.password"
+      process.env.EMAIL,
+      process.env.PASSWORD
     );
 
     // Open user profile page
@@ -20,13 +21,22 @@ describe("Trello editind user profile", () => {
       const editForm = await pages("account").editUserForm;
       await editForm.input("username").waitAndAddValue("tester");
       await editForm.saveEditBtn.waitAndClick();
+      await editForm.successPopup.waitForDisplayed();
 
-      await expect(editForm.successPopup).toBeDisplayed;
-      await expect(editForm.successPopup).toHaveText("Saved");
+      //using chai Assert
+      const popupDisplayed = await editForm.successPopup.isDisplayed();
+      const popupText = await editForm.successPopup.getText();
+      const username = await pages("account").userInfo.username.getText();
+
+      await assert.isTrue(popupDisplayed, "success popup did not display");
+      await assert.equal(popupText, "Saved", "popup didn't have expected text");
+
       await editForm.closePopup();
 
-      await expect(pages("account").userInfo.username).toHaveTextContaining(
-        "tester"
+      await assert.include(
+        username,
+        "tester",
+        "username has not been updated with expected values"
       );
     });
 
@@ -43,10 +53,19 @@ describe("Trello editind user profile", () => {
       const editForm = await pages("account").editUserForm;
       await editForm.input("username").waitAndAddValue("*^");
       await editForm.saveEditBtn.waitAndClick();
+      await editForm.errorMessage.waitForDisplayed();
 
-      await expect(editForm.errorMessage).toBeDisplayed();
-      await expect(editForm.errorMessage).toHaveTextContaining(
-        "Username is invalid"
+      const errorMessageDisplayed = await editForm.errorMessage.isDisplayed();
+      const errorText = await editForm.errorMessage.getText();
+      //using chai Assert
+      await assert.isTrue(
+        errorMessageDisplayed,
+        "error message did not display"
+      );
+      await assert.include(
+        errorText,
+        "Username is invalid",
+        "error message didn't include expected text"
       );
     });
 
@@ -70,9 +89,12 @@ describe("Trello editind user profile", () => {
     await userProfileNameElement.waitForDisplayed();
     const finalUserName = await userProfileNameElement.getText();
 
-    expect(initialUserName).toBe(finalUserName);
-    await expect(pages("account").userInfo.username).not.toHaveTextContaining(
-      "tester"
+    //using chai Assert
+    await assert.equal(initialUserName, finalUserName, "username changed");
+    await assert.notInclude(
+      finalUserName,
+      "tester",
+      "username updated even after cancelation"
     );
   });
 });

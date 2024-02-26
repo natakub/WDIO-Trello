@@ -1,12 +1,13 @@
-const { expect, browser } = require("@wdio/globals");
+const { browser } = require("@wdio/globals");
+const { expect } = require("chai");
 const { pages } = require("../../../page");
 
 describe("Trello editing workspace", () => {
   before("loggin into the account and open workspace", async () => {
     await pages("login").open();
     await pages("login").loginForm.performLogin(
-      "test.user010101111@gmail.com",
-      "test.password"
+      process.env.EMAIL,
+      process.env.PASSWORD
     );
 
     // Open user workspace page
@@ -25,9 +26,12 @@ describe("Trello editing workspace", () => {
       await editWorkspaceForm.input("name").waitAndAddValue("testing");
       await editWorkspaceForm.saveEditBtn.waitAndClick();
 
-      await expect(
-        pages("workspace").workspaceInfo.workspaceName
-      ).toHaveTextContaining("testing");
+      const workspaceName = await pages(
+        "workspace"
+      ).workspaceInfo.workspaceName.getText();
+
+      //using chai Expect
+      await expect(workspaceName).to.have.string("testing");
     });
 
     after("reset the changes", async () => {
@@ -58,9 +62,11 @@ describe("Trello editing workspace", () => {
       const workspaceDescription =
         pages("workspace").workspaceInfo.workspaceDescription;
       await workspaceDescription.waitForDisplayed();
+      const getDescription = await workspaceDescription.getText();
 
-      await expect(workspaceDescription).toExist();
-      await expect(workspaceDescription).toHaveText("testing");
+      //using chai Expect
+      await expect(workspaceDescription, "description did not exist").to.exist;
+      await expect(getDescription).to.equal("testing");
     });
 
     after("reset the changes", async () => {
@@ -94,9 +100,11 @@ describe("Trello editing workspace", () => {
     await workspaceNameElement.waitForDisplayed();
     const finalWorkspaceName = await workspaceNameElement.getText();
 
-    await expect(initialWorkspaceName).toBe(finalWorkspaceName);
-    await expect(
-      pages("workspace").workspaceInfo.workspaceName
-    ).not.toHaveTextContaining("testing");
+    //using chai Expect
+    await expect(initialWorkspaceName).to.equal(
+      finalWorkspaceName,
+      "workspace name changed"
+    );
+    await expect(finalWorkspaceName).to.not.include("testing");
   });
 });

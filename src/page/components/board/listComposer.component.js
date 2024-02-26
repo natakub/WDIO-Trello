@@ -1,7 +1,7 @@
 const { $ } = require("@wdio/globals");
 const BaseComponent = require("../common/base.component");
-const Button = require("../../../controls/button");
-const Input = require("../../../controls/input");
+const Button = require("../../controls/button");
+const Input = require("../../controls/input");
 
 class ListComposerComponent extends BaseComponent {
   get listNameInput() {

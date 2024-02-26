@@ -1,4 +1,4 @@
-const { expect } = require("@wdio/globals");
+const { assert } = require("chai");
 const { pages } = require("../../../page");
 
 describe("Trello Sign up", () => {
@@ -13,7 +13,10 @@ describe("Trello Sign up", () => {
     await signupForm.performSignup("test.user010101111@gmailcom");
     await signupForm.signupBtn.waitAndClick();
     await signupForm.signupBtn.waitAndClick();
+    await signupForm.errorMessage.waitForDisplayed();
 
-    await expect(signupForm.errorMessage).toBeDisplayed();
+    const messageDisplayed = await signupForm.errorMessage.isDisplayed();
+    //using chai Assert
+    await assert.isTrue(messageDisplayed, "error message did not display");
   });
 });

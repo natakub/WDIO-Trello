@@ -1,5 +1,5 @@
 const BaseComponent = require("../common/base.component");
-const Button = require("../../../controls/button");
+const Button = require("../../controls/button");
 
 class MemberNavbarComponent extends BaseComponent {
   get profileTab() {
