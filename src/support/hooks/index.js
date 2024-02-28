@@ -36,6 +36,15 @@ const hooksBeforeEach = {
   loginAndOpenSearchPage: async () => {
     await loginAndOpenPage("https://trello.com/search");
   },
+
+  loginAndOpenBoardPage: async () => {
+    await loginAndOpenPage("https://trello.com/b/c26GhLBg/test-list-and-card");
+  },
+
+  openSignupPage: async () => {
+    await pages("home").open();
+    await pages("home").homeHeader.signupPageBtn.waitAndClick();
+  },
 };
 
 const resetProfileChanges = async (eraseValuesLength) => {
