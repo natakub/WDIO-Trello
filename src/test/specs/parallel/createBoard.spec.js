@@ -1,14 +1,9 @@
 const { expect } = require("chai");
 const { pages } = require("../../../page");
+const { hooksBeforeEach } = require("../../../support/hooks");
 
 describe("Creating new Board", () => {
-  before("loggin into the account", async () => {
-    await pages("login").open();
-    await pages("login").loginForm.performLogin(
-      process.env.EMAIL,
-      process.env.PASSWORD
-    );
-  });
+  beforeEach(hooksBeforeEach.login);
 
   it("should add new board with specified name", async () => {
     await pages("boards").header.createMenuBtn.waitAndClick();
