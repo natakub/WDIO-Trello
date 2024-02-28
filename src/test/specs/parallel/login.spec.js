@@ -26,10 +26,11 @@ describe("Trello Login", () => {
     await loginForm.button("continue").waitAndClick();
     await loginForm.button("resetPasswordRequest").waitAndClick();
     await loginForm.button("resetPasswordConfirm").waitAndClick();
-    await loginForm.emailSentMessage.waitForDisplayed();
 
+    const emailSentMessage = await loginForm.waitAndGetText(
+      loginForm.emailSentMessage
+    );
     const messageDisplayed = await loginForm.emailSentMessage.isDisplayed();
-    const emailSentMessage = await loginForm.emailSentMessage.getText();
     //using chai Expect
     await expect(messageDisplayed, "message did not display").to.be.true;
     await expect(emailSentMessage).to.match(

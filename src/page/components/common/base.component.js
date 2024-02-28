@@ -27,6 +27,12 @@ class BaseComponent {
     const lastIndex = elements.length - 1;
     return elements[lastIndex];
   }
+
+  async waitAndGetText(element) {
+    await element.waitForDisplayed();
+
+    return element.getText();
+  }
 }
 
 module.exports = BaseComponent;

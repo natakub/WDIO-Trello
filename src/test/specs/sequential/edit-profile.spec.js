@@ -14,11 +14,10 @@ describe("Trello editind user profile", () => {
         .input("username")
         .waitAndAddValue(resources.testingInputValue);
       await editForm.saveEditBtn.waitAndClick();
-      await editForm.successPopup.waitForDisplayed();
 
       //using chai Assert
+      const popupText = await editForm.waitAndGetText(editForm.successPopup);
       const popupDisplayed = await editForm.successPopup.isDisplayed();
-      const popupText = await editForm.successPopup.getText();
       const username = await pages("account").userInfo.username.getText();
 
       await assert.isTrue(popupDisplayed, "success popup did not display");
@@ -47,10 +46,10 @@ describe("Trello editind user profile", () => {
         .input("username")
         .waitAndAddValue(resources.invalidInputValue);
       await editForm.saveEditBtn.waitAndClick();
-      await editForm.errorMessage.waitForDisplayed();
 
+      const errorText = await editForm.waitAndGetText(editForm.errorMessage);
       const errorMessageDisplayed = await editForm.errorMessage.isDisplayed();
-      const errorText = await editForm.errorMessage.getText();
+
       //using chai Assert
       await assert.isTrue(
         errorMessageDisplayed,
@@ -68,18 +67,15 @@ describe("Trello editind user profile", () => {
 
   describe("cancel username editing", async () => {
     it("username should remain unchanged when cancel edited changes", async () => {
-      const userProfileNameElement = pages("account").userInfo.username;
-      await userProfileNameElement.waitForDisplayed();
-      const initialUserName = await userProfileNameElement.getText();
+      const userInfo = await pages("account").userInfo;
+      const initialUserName = await userInfo.waitAndGetText(userInfo.username);
 
-      const editForm = await pages("account").editUserForm;
-      await editForm
-        .input("username")
+      await pages("account")
+        .editUserForm.input("username")
         .waitAndAddValue(resources.testingInputValue);
       await browser.refresh();
 
-      await userProfileNameElement.waitForDisplayed();
-      const finalUserName = await userProfileNameElement.getText();
+      const finalUserName = await userInfo.waitAndGetText(userInfo.username);
 
       //using chai Assert
       await assert.equal(initialUserName, finalUserName, "username changed");
