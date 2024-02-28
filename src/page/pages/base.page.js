@@ -1,12 +1,11 @@
 const { browser } = require("@wdio/globals");
-const { Header, CreateBoard, MemberMenu } = require("../components");
+const { Header, CreateMenuPopover } = require("../components");
 
 module.exports = class BasePage {
   constructor(url) {
     this.url = url;
     this.header = new Header();
-    this.memberMenu = new MemberMenu();
-    this.createBoard = new CreateBoard();
+    this.CreateMenuPopover = new CreateMenuPopover();
   }
 
   get loggedoutHeader() {

@@ -4,6 +4,10 @@ const Button = require("../../controls/button");
 const Input = require("../../controls/input");
 
 class CardComposerComponent extends BaseComponent {
+  constructor() {
+    super("form.H136XFPzM9syCb");
+  }
+
   get cardNameInput() {
     return new Input("[data-testid='list-card-composer-textarea']");
   }

@@ -12,10 +12,6 @@ class SignupFormComponent extends BaseComponent {
     return $("#email-uid2-error");
   }
 
-  get captchaMessage() {
-    return $("section[data-testid='form-error']");
-  }
-
   /**
    *
    * @param  name {"email" | "password"}

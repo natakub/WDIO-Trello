@@ -1,23 +1,16 @@
 const { browser } = require("@wdio/globals");
 const should = require("chai").should();
 const { pages } = require("../../../page");
+const { hooksBeforeEach, hooksAfter } = require("../../../support/hooks");
+const resources = require("../../../support/resources");
 
 describe("Trello List Creation", () => {
-  before("loggin into the account and open board page", async () => {
-    await pages("login").open();
-    await pages("login").loginForm.performLogin(
-      process.env.EMAIL,
-      process.env.PASSWORD
-    );
-
-    //open board page
-    await browser.newWindow("https://trello.com/b/c26GhLBg/test-list-and-card");
-  });
+  beforeEach(hooksBeforeEach.loginAndOpenBoardPage);
 
   it("should create new list in board", async () => {
     await pages("board").lists.listComposerBtn.waitAndClick();
     await pages("board").listComposer.listNameInput.waitAndSetValue(
-      "List Name"
+      resources.createdListName
     );
     await pages("board").listComposer.addListBtn.waitAndClick();
 
@@ -26,14 +19,15 @@ describe("Trello List Creation", () => {
     const latestListName = await latestList.getText();
     //using chai Should
     await latestListName.should.equal(
-      "List Name",
+      resources.createdListName,
       "latest list name title is not the expected one"
     );
   });
 
   it("should cancel new list creation in board if requested", async () => {
+    await pages("board").lists.listComposerBtn.waitAndClick();
     await pages("board").listComposer.listNameInput.waitAndSetValue(
-      "List Cancel"
+      resources.canceledListName
     );
     await pages("board").listComposer.cancelListBtn.waitAndClick();
 
@@ -43,8 +37,10 @@ describe("Trello List Creation", () => {
     });
     //using chai Should
     await listNamesArray.should.not.include(
-      "List Cancel",
+      resources.canceledListName,
       "array contains this list name"
     );
   });
+
+  afterEach(hooksAfter.afterEach.reload);
 });

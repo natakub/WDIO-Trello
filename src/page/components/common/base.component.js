@@ -1,4 +1,12 @@
 class BaseComponent {
+  constructor(rootSelector) {
+    this.rootSelector = rootSelector;
+  }
+
+  get rootEl() {
+    return $(this.rootSelector);
+  }
+
   async getTextToLowerCase(element) {
     await element.waitForDisplayed();
     const text = await element.getText();
@@ -18,6 +26,12 @@ class BaseComponent {
     const elements = await list;
     const lastIndex = elements.length - 1;
     return elements[lastIndex];
+  }
+
+  async waitAndGetText(element) {
+    await element.waitForDisplayed();
+
+    return element.getText();
   }
 }
 

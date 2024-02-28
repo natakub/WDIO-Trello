@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { pages } = require("../../../page");
+const resources = require("../../../support/resources");
 
 describe("Trello Login", () => {
   beforeEach(async () => {
@@ -8,13 +9,14 @@ describe("Trello Login", () => {
 
   it("an appropriate error message should appear when trying to log in with incorrect credentials", async () => {
     const loginForm = pages("login").loginForm;
-    await loginForm.performLogin("test.user010101111@gmail.co", "test.passwor");
+    await loginForm.performLogin(
+      resources.incorrectLoginEmail,
+      resources.incorrectLoginPasssword
+    );
 
     const errorMessage = await loginForm.errorLoginMessage.getText();
     //using chai Expect
-    await expect(errorMessage).to.match(
-      /incorrect email address and \/ or password|incorrecto correo|неправильный адрес электронной почты|неправильна адреса електронної пошти та \(або\) пароль/i
-    );
+    await expect(errorMessage).to.match(resources.errorLoginMessageRegExp);
   });
 
   it("a corresponding message should appear when requesting a password reset", async () => {
@@ -24,29 +26,30 @@ describe("Trello Login", () => {
     await loginForm.button("continue").waitAndClick();
     await loginForm.button("resetPasswordRequest").waitAndClick();
     await loginForm.button("resetPasswordConfirm").waitAndClick();
-    await loginForm.emailSentMessage.waitForDisplayed();
 
+    const emailSentMessage = await loginForm.waitAndGetText(
+      loginForm.emailSentMessage
+    );
     const messageDisplayed = await loginForm.emailSentMessage.isDisplayed();
-    const emailSentMessage = await loginForm.emailSentMessage.getText();
     //using chai Expect
     await expect(messageDisplayed, "message did not display").to.be.true;
     await expect(emailSentMessage).to.match(
-      /we sent a recovery link to you|ми надіслали посилання для відновлення|мы отправили ссылку для восстановления/i
+      resources.resetPasswordConfirmationMessageRegExp
     );
   });
 
   it("should log in with valid credentials", async () => {
     const loginForm = pages("login").loginForm;
-    const userWorkspaces = pages("boards").userWorkspaces;
+    const allBoards = pages("boards").allBoards;
 
     await loginForm.performLogin(process.env.EMAIL, process.env.PASSWORD);
 
-    const userWorkspacesTitle = await userWorkspaces.getTextToLowerCase(
-      userWorkspaces.userWorkspacesTitle
+    const userWorkspacesTitle = await allBoards.getTextToLowerCase(
+      allBoards.userWorkspacesTitle
     );
     //using chai Expect
     await expect(userWorkspacesTitle).to.match(
-      /your workspaces|ваші робочі області|ваши рабочие области/i
+      resources.userWorkspacesTitleRegExp
     );
   });
 });

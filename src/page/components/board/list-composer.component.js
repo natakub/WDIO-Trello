@@ -4,6 +4,10 @@ const Button = require("../../controls/button");
 const Input = require("../../controls/input");
 
 class ListComposerComponent extends BaseComponent {
+  constructor() {
+    super("form.vVqwaYKVgTygrk");
+  }
+
   get listNameInput() {
     return new Input("[name='Enter list title…']");
   }

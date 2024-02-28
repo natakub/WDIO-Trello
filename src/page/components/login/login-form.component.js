@@ -12,14 +12,6 @@ class LoginFormComponent extends BaseComponent {
     return $("#email-sent-page");
   }
 
-  get captchaMessage() {
-    return $("#rc-anchor-container");
-  }
-
-  get captchaCheckbox() {
-    return new Input("#recaptcha-anchor");
-  }
-
   /**
    *
    * @param  name {"continue" | "login" | "resetPasswordRequest" | "resetPasswordConfirm"}
@@ -46,7 +38,6 @@ class LoginFormComponent extends BaseComponent {
   get input() {
     const selectors = {
       email: "#user",
-      email1: "#username",
       password: "#password",
       emailForPasswordReset: "#email",
     };
