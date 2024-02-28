@@ -2,6 +2,10 @@ const BaseComponent = require("../common/base.component");
 const Button = require("../../controls/button");
 
 class HomeHeaderComponent extends BaseComponent {
+  constructor() {
+    super("header[data-testid='bignav']");
+  }
+
   get signupPageBtn() {
     return new Button("[data-uuid='MJFtCCgVhXrVl7v9HA7EH_signup']");
   }

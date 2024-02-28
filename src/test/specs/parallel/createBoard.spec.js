@@ -12,11 +12,11 @@ describe("Creating new Board", () => {
 
   it("should add new board with specified name", async () => {
     await pages("boards").header.createMenuBtn.waitAndClick();
-    await pages("boards").header.createBoardBtn.waitAndClick();
-    await pages("boards").createBoard.boardTitleInput.waitAndSetValue(
+    await pages("boards").CreateMenuPopover.createBoardBtn.waitAndClick();
+    await pages("boards").CreateMenuPopover.boardTitleInput.waitAndSetValue(
       "Board Name"
     );
-    await pages("boards").createBoard.submitBoardBtn.waitAndClick();
+    await pages("boards").CreateMenuPopover.submitBoardBtn.waitAndClick();
 
     const boardName = await pages("board").boardHeader.boardName.getText();
     //using chai Expect

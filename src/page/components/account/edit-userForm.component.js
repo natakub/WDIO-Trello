@@ -4,20 +4,16 @@ const Button = require("../../controls/button");
 const Input = require("../../controls/input");
 
 class EditUserFormComponent extends BaseComponent {
+  constructor() {
+    super("[data-testid='profile-form']");
+  }
+
   get saveEditBtn() {
     return new Button("button[type='submit']");
   }
 
-  get successPopup() {
-    return $("#FlagGroup .QMKgZFIlTLiEJN");
-  }
-
-  get closePopupBtn() {
-    return new Button("button.LbO_k5JPG5miXd");
-  }
-
   get errorMessage() {
-    return $("#SaveProfileError_Field_username");
+    return this.rootEl.$("#SaveProfileError_Field_username");
   }
 
   /**
@@ -33,6 +29,14 @@ class EditUserFormComponent extends BaseComponent {
     };
 
     return (name) => new Input(selectors[name].toLowerCase());
+  }
+
+  get successPopup() {
+    return $("#FlagGroup .QMKgZFIlTLiEJN");
+  }
+
+  get closePopupBtn() {
+    return new Button("button.LbO_k5JPG5miXd");
   }
 
   async closePopup() {

@@ -13,6 +13,10 @@ describe("Trello editind user profile", () => {
     // Open user profile page
     await browser.newWindow("https://trello.com/u/testuser25489");
     await pages("account").loggedoutHeader.waitForExist(undefined, true);
+    console.log(
+      "profile tab selector:",
+      pages("account").memberNavbar.profileTab
+    );
     await pages("account").memberNavbar.profileTab.waitAndClick();
   });
 

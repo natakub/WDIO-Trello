@@ -3,8 +3,12 @@ const BaseComponent = require("../common/base.component");
 const Button = require("../../controls/button");
 
 class BoardHeaderComponent extends BaseComponent {
+  constructor() {
+    super(".board-header");
+  }
+
   get boardName() {
-    return $("[data-testid='board-name-display']");
+    return this.rootEl.$("[data-testid='board-name-display']");
   }
 
   get filterBtn() {

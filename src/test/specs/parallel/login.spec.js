@@ -37,12 +37,12 @@ describe("Trello Login", () => {
 
   it("should log in with valid credentials", async () => {
     const loginForm = pages("login").loginForm;
-    const userWorkspaces = pages("boards").userWorkspaces;
+    const allBoards = pages("boards").allBoards;
 
     await loginForm.performLogin(process.env.EMAIL, process.env.PASSWORD);
 
-    const userWorkspacesTitle = await userWorkspaces.getTextToLowerCase(
-      userWorkspaces.userWorkspacesTitle
+    const userWorkspacesTitle = await allBoards.getTextToLowerCase(
+      allBoards.userWorkspacesTitle
     );
     //using chai Expect
     await expect(userWorkspacesTitle).to.match(
