@@ -2,6 +2,7 @@ const { browser } = require("@wdio/globals");
 const { assert } = require("chai");
 const { pages } = require("../../../page");
 const { hooksBeforeEach, hooksAfter } = require("../../../support/hooks");
+const resources = require("../../../support/resources");
 
 describe("Trello editind user profile", () => {
   beforeEach(hooksBeforeEach.loginAndOpenProfilePage);
@@ -9,7 +10,9 @@ describe("Trello editind user profile", () => {
   describe("Update username with valid characters", () => {
     it("should update username when edited using valid characters", async () => {
       const editForm = await pages("account").editUserForm;
-      await editForm.input("username").waitAndAddValue("tester");
+      await editForm
+        .input("username")
+        .waitAndAddValue(resources.testingInputValue);
       await editForm.saveEditBtn.waitAndClick();
       await editForm.successPopup.waitForDisplayed();
 
@@ -19,13 +22,17 @@ describe("Trello editind user profile", () => {
       const username = await pages("account").userInfo.username.getText();
 
       await assert.isTrue(popupDisplayed, "success popup did not display");
-      await assert.equal(popupText, "Saved", "popup didn't have expected text");
+      await assert.equal(
+        popupText,
+        resources.successPopup,
+        "popup didn't have expected text"
+      );
 
       await editForm.closePopup();
 
       await assert.include(
         username,
-        "tester",
+        resources.testingInputValue,
         "username has not been updated with expected values"
       );
     });
@@ -36,7 +43,9 @@ describe("Trello editind user profile", () => {
   describe("update username with invalid characters", () => {
     it("should throw an error when username edited with invalid characters", async () => {
       const editForm = await pages("account").editUserForm;
-      await editForm.input("username").waitAndAddValue("*^");
+      await editForm
+        .input("username")
+        .waitAndAddValue(resources.invalidInputValue);
       await editForm.saveEditBtn.waitAndClick();
       await editForm.errorMessage.waitForDisplayed();
 
@@ -49,7 +58,7 @@ describe("Trello editind user profile", () => {
       );
       await assert.include(
         errorText,
-        "Username is invalid",
+        resources.invalidUsernameError,
         "error message didn't include expected text"
       );
     });
@@ -64,7 +73,9 @@ describe("Trello editind user profile", () => {
       const initialUserName = await userProfileNameElement.getText();
 
       const editForm = await pages("account").editUserForm;
-      await editForm.input("username").waitAndAddValue("tester");
+      await editForm
+        .input("username")
+        .waitAndAddValue(resources.testingInputValue);
       await browser.refresh();
 
       await userProfileNameElement.waitForDisplayed();
@@ -74,7 +85,7 @@ describe("Trello editind user profile", () => {
       await assert.equal(initialUserName, finalUserName, "username changed");
       await assert.notInclude(
         finalUserName,
-        "tester",
+        resources.testingInputValue,
         "username updated even after cancelation"
       );
     });

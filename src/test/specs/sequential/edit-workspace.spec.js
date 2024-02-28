@@ -2,6 +2,7 @@ const { browser } = require("@wdio/globals");
 const { expect } = require("chai");
 const { pages } = require("../../../page");
 const { hooksBeforeEach, hooksAfter } = require("../../../support/hooks");
+const resources = require("../../../support/resources");
 
 describe("Trello editing workspace", () => {
   beforeEach(hooksBeforeEach.loginAndOpenWorkspacePage);
@@ -13,7 +14,9 @@ describe("Trello editing workspace", () => {
       ).workspaceInfo.openEditWorkspaceFormBtn.waitAndClick();
 
       const editWorkspaceForm = await pages("workspace").editWorkspaceForm;
-      await editWorkspaceForm.input("name").waitAndAddValue("testing");
+      await editWorkspaceForm
+        .input("name")
+        .waitAndAddValue(resources.testingInputValue);
       await editWorkspaceForm.saveEditBtn.waitAndClick();
 
       const workspaceName = await pages(
@@ -21,7 +24,7 @@ describe("Trello editing workspace", () => {
       ).workspaceInfo.workspaceName.getText();
 
       //using chai Expect
-      await expect(workspaceName).to.have.string("testing");
+      await expect(workspaceName).to.have.string(resources.testingInputValue);
     });
 
     after(hooksAfter.after.resetWorkspaceName);
@@ -34,7 +37,9 @@ describe("Trello editing workspace", () => {
       ).workspaceInfo.openEditWorkspaceFormBtn.waitAndClick();
 
       const editWorkspaceForm = await pages("workspace").editWorkspaceForm;
-      await editWorkspaceForm.input("description").waitAndAddValue("testing");
+      await editWorkspaceForm
+        .input("description")
+        .waitAndAddValue(resources.testingInputValue);
       await editWorkspaceForm.saveEditBtn.waitAndClick();
 
       const workspaceDescription =
@@ -44,7 +49,7 @@ describe("Trello editing workspace", () => {
 
       //using chai Expect
       await expect(workspaceDescription, "description did not exist").to.exist;
-      await expect(getDescription).to.equal("testing");
+      await expect(getDescription).to.equal(resources.testingInputValue);
     });
 
     after(hooksAfter.after.resetWorkspaceDescription);
@@ -62,7 +67,9 @@ describe("Trello editing workspace", () => {
       ).workspaceInfo.openEditWorkspaceFormBtn.waitAndClick();
 
       const editWorkspaceForm = await pages("workspace").editWorkspaceForm;
-      await editWorkspaceForm.input("description").waitAndAddValue("testing");
+      await editWorkspaceForm
+        .input("description")
+        .waitAndAddValue(resources.testingInputValue);
       await editWorkspaceForm.cancelEditBtn.waitAndClick();
 
       await workspaceNameElement.waitForDisplayed();
@@ -73,7 +80,9 @@ describe("Trello editing workspace", () => {
         finalWorkspaceName,
         "workspace name changed"
       );
-      await expect(finalWorkspaceName).to.not.include("testing");
+      await expect(finalWorkspaceName).to.not.include(
+        resources.testingInputValue
+      );
     });
 
     afterEach(hooksAfter.afterEach.reload);

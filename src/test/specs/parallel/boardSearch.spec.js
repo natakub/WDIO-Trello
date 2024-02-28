@@ -2,25 +2,26 @@ const { browser } = require("@wdio/globals");
 const should = require("chai").should();
 const { pages } = require("../../../page");
 const { hooksBeforeEach, hooksAfter } = require("../../../support/hooks");
+const resources = require("../../../support/resources");
 
 describe("Trello Board Search", () => {
   beforeEach(hooksBeforeEach.loginAndOpenSearchPage);
 
   it("should find a board with the specified name and be able to access it", async () => {
     const search = await pages("search").searchComponent;
-    await search.searchInput.waitAndSetValue("Board Test Search");
+    await search.searchInput.waitAndSetValue(resources.specifiedBoardSearched);
     await search.boards.waitForDisplayed();
 
     const firstSearchResultItem = await search.searchResultItem[0];
     const boardTitle = await firstSearchResultItem.getAttribute("title");
     //using chai Should
-    await boardTitle.should.equal("Board Test Search");
+    await boardTitle.should.equal(resources.specifiedBoardSearched);
 
     await firstSearchResultItem.click();
 
     const boardName = await pages("board").boardHeader.boardName.getText();
     //using chai Should
-    boardName.should.equal("Board Test Search");
+    boardName.should.equal(resources.specifiedBoardSearched);
   });
 
   it("should find all board with similar names and be able to access it", async () => {

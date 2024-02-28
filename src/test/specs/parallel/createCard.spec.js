@@ -2,6 +2,7 @@ const { browser } = require("@wdio/globals");
 const { assert } = require("chai");
 const { pages } = require("../../../page");
 const { hooksBeforeEach, hooksAfter } = require("../../../support/hooks");
+const resources = require("../../../support/resources");
 
 describe("Trello Card Creation", () => {
   beforeEach(hooksBeforeEach.loginAndOpenBoardPage);
@@ -9,7 +10,7 @@ describe("Trello Card Creation", () => {
   it("should create a new card in list", async () => {
     await pages("board").list.cardComposerBtn.waitAndClick();
     await pages("board").cardComposer.cardNameInput.waitAndSetValue(
-      "Card Name"
+      resources.createdCardName
     );
     await pages("board").cardComposer.addCardBtn.waitAndClick();
 
@@ -19,7 +20,7 @@ describe("Trello Card Creation", () => {
     //using chai Assert
     await assert.equal(
       latestCardName,
-      "Card Name",
+      resources.createdCardName,
       "latest card name title is not the expected one"
     );
   });
@@ -27,7 +28,7 @@ describe("Trello Card Creation", () => {
   it("should cancel new card creation in list if requested", async () => {
     await pages("board").list.cardComposerBtn.waitAndClick();
     await pages("board").cardComposer.cardNameInput.waitAndSetValue(
-      "Card Cancel"
+      resources.canceledCardName
     );
     await pages("board").cardComposer.cancelCardBtn.waitAndClick();
 
@@ -39,7 +40,7 @@ describe("Trello Card Creation", () => {
     //using chai Assert
     await assert.notInclude(
       cardNamesArray,
-      "Card Cancel",
+      resources.canceledCardName,
       "array contains this card name"
     );
   });

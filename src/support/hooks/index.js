@@ -1,4 +1,5 @@
 const { pages } = require("../../page");
+const resources = require("../resources");
 
 const loginAndOpenPage = async (pageUrl) => {
   await pages("login").open();
@@ -76,19 +77,19 @@ const hooksAfter = {
 
   after: {
     resetProfileChangesValid: async () => {
-      await resetProfileChanges(6);
+      await resetProfileChanges(resources.testingInputValue.length);
       await browser.reloadSession();
     },
 
     resetProfileChangesInvalid: async () => {
-      await resetProfileChanges(2);
+      await resetProfileChanges(resources.invalidInputValue.length);
       await browser.reloadSession();
     },
 
     resetWorkspaceName: async () => {
       await resetWorkspaceChanges(
         pages("workspace").editWorkspaceForm.input("name"),
-        7
+        resources.testingInputValue.length
       );
       await browser.reloadSession();
     },
@@ -96,7 +97,7 @@ const hooksAfter = {
     resetWorkspaceDescription: async () => {
       await resetWorkspaceChanges(
         pages("workspace").editWorkspaceForm.input("description"),
-        7
+        resources.testingInputValue.length
       );
       await browser.reloadSession();
     },

@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { pages } = require("../../../page");
+const resources = require("../../../support/resources");
 
 describe("Trello Login", () => {
   beforeEach(async () => {
@@ -8,13 +9,14 @@ describe("Trello Login", () => {
 
   it("an appropriate error message should appear when trying to log in with incorrect credentials", async () => {
     const loginForm = pages("login").loginForm;
-    await loginForm.performLogin("test.user010101111@gmail.co", "test.passwor");
+    await loginForm.performLogin(
+      resources.incorrectLoginEmail,
+      resources.incorrectLoginPasssword
+    );
 
     const errorMessage = await loginForm.errorLoginMessage.getText();
     //using chai Expect
-    await expect(errorMessage).to.match(
-      /incorrect email address and \/ or password|incorrecto correo|неправильный адрес электронной почты|неправильна адреса електронної пошти та \(або\) пароль/i
-    );
+    await expect(errorMessage).to.match(resources.errorLoginMessageRegExp);
   });
 
   it("a corresponding message should appear when requesting a password reset", async () => {
@@ -31,7 +33,7 @@ describe("Trello Login", () => {
     //using chai Expect
     await expect(messageDisplayed, "message did not display").to.be.true;
     await expect(emailSentMessage).to.match(
-      /we sent a recovery link to you|ми надіслали посилання для відновлення|мы отправили ссылку для восстановления/i
+      resources.resetPasswordConfirmationMessageRegExp
     );
   });
 
@@ -46,7 +48,7 @@ describe("Trello Login", () => {
     );
     //using chai Expect
     await expect(userWorkspacesTitle).to.match(
-      /your workspaces|ваші робочі області|ваши рабочие области/i
+      resources.userWorkspacesTitleRegExp
     );
   });
 });
