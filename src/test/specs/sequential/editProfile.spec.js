@@ -1,24 +1,10 @@
-const { browser } = require("@wdio/globals");
+const { browser, expect } = require("@wdio/globals");
 const { assert } = require("chai");
 const { pages } = require("../../../page");
+const { hooksBefore, hooksAfter } = require("../../../support/hooks/index");
 
 describe("Trello editind user profile", () => {
-  before("loggin into the account and open user profile page", async () => {
-    await pages("login").open();
-    await pages("login").loginForm.performLogin(
-      process.env.EMAIL,
-      process.env.PASSWORD
-    );
-
-    // Open user profile page
-    await browser.newWindow("https://trello.com/u/testuser25489");
-    await pages("account").loggedoutHeader.waitForExist(undefined, true);
-    console.log(
-      "profile tab selector:",
-      pages("account").memberNavbar.profileTab
-    );
-    await pages("account").memberNavbar.profileTab.waitAndClick();
-  });
+  beforeEach(hooksBefore.beforeEachEditProfile);
 
   describe("Update username with valid characters", () => {
     it("should update username when edited using valid characters", async () => {
@@ -29,11 +15,12 @@ describe("Trello editind user profile", () => {
 
       //using chai Assert
       const popupDisplayed = await editForm.successPopup.isDisplayed();
-      const popupText = await editForm.successPopup.getText();
+      // const popupText = await editForm.successPopup.getText();
       const username = await pages("account").userInfo.username.getText();
 
       await assert.isTrue(popupDisplayed, "success popup did not display");
-      await assert.equal(popupText, "Saved", "popup didn't have expected text");
+      // await assert.equal(popupText, "Saved", "popup didn't have expected text");
+      await expect(editForm.successPopup).toHaveText("Saved");
 
       await editForm.closePopup();
 
@@ -44,12 +31,7 @@ describe("Trello editind user profile", () => {
       );
     });
 
-    after("reset the changes", async () => {
-      const editForm = await pages("account").editUserForm;
-      await editForm.eraseInputValues(editForm.input("username"), 6);
-      await editForm.saveEditBtn.waitAndClick();
-      await editForm.closePopup();
-    });
+    afterEach(hooksAfter.afterEachResetChangesValid);
   });
 
   describe("update username with invalid characters", () => {
@@ -73,32 +55,31 @@ describe("Trello editind user profile", () => {
       );
     });
 
-    after("reset the changes", async () => {
-      const editForm = await pages("account").editUserForm;
-      await editForm.eraseInputValues(editForm.input("username"), 2);
-      await editForm.saveEditBtn.waitAndClick();
-      await editForm.closePopup();
-    });
+    afterEach(hooksAfter.afterEachResetChangesInvalid);
   });
 
-  it("username should remain unchanged when cancel edited changes", async () => {
-    const userProfileNameElement = pages("account").userInfo.username;
-    await userProfileNameElement.waitForDisplayed();
-    const initialUserName = await userProfileNameElement.getText();
+  describe("cancel username editing", async () => {
+    it("username should remain unchanged when cancel edited changes", async () => {
+      const userProfileNameElement = pages("account").userInfo.username;
+      await userProfileNameElement.waitForDisplayed();
+      const initialUserName = await userProfileNameElement.getText();
 
-    const editForm = await pages("account").editUserForm;
-    await editForm.input("username").waitAndAddValue("tester");
-    await browser.refresh();
+      const editForm = await pages("account").editUserForm;
+      await editForm.input("username").waitAndAddValue("tester");
+      await browser.refresh();
 
-    await userProfileNameElement.waitForDisplayed();
-    const finalUserName = await userProfileNameElement.getText();
+      await userProfileNameElement.waitForDisplayed();
+      const finalUserName = await userProfileNameElement.getText();
 
-    //using chai Assert
-    await assert.equal(initialUserName, finalUserName, "username changed");
-    await assert.notInclude(
-      finalUserName,
-      "tester",
-      "username updated even after cancelation"
-    );
+      //using chai Assert
+      await assert.equal(initialUserName, finalUserName, "username changed");
+      await assert.notInclude(
+        finalUserName,
+        "tester",
+        "username updated even after cancelation"
+      );
+    });
+
+    afterEach(hooksAfter.afterEachReload);
   });
 });
